@@ -1,21 +1,19 @@
-import { getPosts } from '@/lib/posts';
-import Link from 'next/link';
+import { getPosts } from "@/lib/posts"
+import Link from "next/link"
 
 const PostsIndex = async () => {
-  const posts = await getPosts();
-  console.log('posts: ', posts);
+  const posts = await getPosts()
+  console.log("posts: ", posts)
   return (
     <div>
       <h1>文章列表</h1>
       {posts.map((p) => (
         <div key={p.id}>
-          <Link href={`/posts/${p.id}`}>
-            {p.id}
-          </Link>
+          <Link href={`/posts/${p.id}`}>{p.id}</Link>
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default PostsIndex;
+export default PostsIndex

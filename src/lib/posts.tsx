@@ -2,38 +2,44 @@ import path from 'path';
 import matter from 'gray-matter';
 import fs, { promises as fsPromise } from 'fs';
 import { marked } from 'marked';
+import { Post } from '@/hooks/usePosts';
 
 const markdownDir = path.join(process.cwd(), 'markdown');
 
 export const getPosts = async () => {
   const fileNames = await fsPromise.readdir(markdownDir);
-  const posts = fileNames.map(fileName => {
-    const fullPath = path.join(markdownDir, fileName);
+  const posts = fileNames.map(async (fileName) => {
     const id = fileName.replace(/\.md$/g, '');
-    const text = fs.readFileSync(fullPath, 'utf-8');
-    // const {data, content} = matter(text)
-    // const {title, date} = data
-    const {data: {title, date}, content} = matter(text);
+    const { title, date } = await getPost(id);
     return {
-      id, title, date
+      id,
+      title,
+      date,
     };
   });
-  return posts;
+  return Promise.all(posts);
 };
 
-export const getPost = async (id: string) => {
+export const getPost = async (id: string): Promise<Post> => {
   const fullPath = path.join(markdownDir, id + '.md');
   const text = fs.readFileSync(fullPath, 'utf-8');
-  const {data: {title, date}, content} = matter(text);
+  const {
+    data: { title, date },
+    content,
+  } = matter(text);
   const htmlContent = marked(content);
-  console.log('htmlContent: ', htmlContent);
-  return JSON.parse(JSON.stringify({
-    id, title, date, content, htmlContent
-  }));
+  return JSON.parse(
+    JSON.stringify({
+      id,
+      title,
+      date,
+      content,
+      htmlContent,
+    })
+  );
 };
 
-
 export const getPostIds = async () => {
-  const fileNames = await fsPromise.readdir(markdownDir);
-  return fileNames.map(fileName => fileName.replace(/\.md$/g, ''));
+  const posts = await getPosts();
+  return posts.map(i => i.id);
 };

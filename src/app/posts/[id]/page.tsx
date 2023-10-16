@@ -1,4 +1,3 @@
-import { Post } from '@/hooks/usePosts';
 import { getPost, getPostIds } from '@/lib/posts';
 import { NextPage } from 'next';
 
@@ -7,7 +6,7 @@ type Props = {
 };
 const postsShow: NextPage<Props> = async (props) => {
   const id = props.params.id;
-  const post: Post = await getPost(id);
+  const post = await getPost(id);
   return (
     <div>
       <h1>{post.title}</h1>

@@ -1,14 +1,9 @@
-import { NextPage } from 'next';
 import { getPosts } from '@/lib/posts';
 import Link from 'next/link';
-import { Post } from '@/hooks/usePosts';
 
-type Props = {
-  posts: Post[];
-};
-const PostsIndex: NextPage<Props> = async () => {
+const PostsIndex = async () => {
   const posts = await getPosts();
-  console.log(posts);
+  console.log('posts: ', posts);
   return (
     <div>
       <h1>文章列表</h1>

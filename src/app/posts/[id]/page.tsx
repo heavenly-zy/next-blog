@@ -1,4 +1,4 @@
-import { getPost, getPostIds } from "@/lib/posts"
+import { getPost } from "@/lib/posts"
 import { NextPage } from "next"
 
 type Props = {
@@ -16,11 +16,3 @@ const postsShow: NextPage<Props> = async (props) => {
 }
 
 export default postsShow
-
-export const getStaticPaths = async () => {
-  const idList = await getPostIds()
-  return {
-    paths: idList.map((id) => ({ params: { id: id } })),
-    fallback: true
-  }
-}

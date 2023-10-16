@@ -38,8 +38,3 @@ export const getPost = async (id: string): Promise<Post> => {
     })
   )
 }
-
-export const getPostIds = async () => {
-  const posts = await getPosts()
-  return posts.map((i) => i.id)
-}

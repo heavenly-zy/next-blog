@@ -3,7 +3,6 @@ import Link from "next/link"
 
 const PostsIndex = async () => {
   const posts = await getPosts()
-  console.log("posts: ", posts)
   return (
     <div>
       <h1>文章列表</h1>

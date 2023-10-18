@@ -13,10 +13,10 @@ var AppDataSource = new _typeorm.DataSource({
   username: "blog",
   password: "",
   database: "blog_development",
-  synchronize: true,
+  synchronize: false,
   logging: false,
   entities: ["dist/entity/**/*.js"],
-  migrations: [],
+  migrations: ["dist/migration/**/*.js"],
   subscribers: []
 });
 exports.AppDataSource = AppDataSource;

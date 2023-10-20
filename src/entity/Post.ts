@@ -1,4 +1,14 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from "typeorm"
+import { User } from "./User"
+import { Comment } from "./Comment"
 
 @Entity("posts")
 export class Post {
@@ -8,8 +18,12 @@ export class Post {
   title: string
   @Column("text")
   content: string
-
-  constructor(attributes: Partial<Post>) {
-    Object.assign(this, attributes)
-  }
+  @CreateDateColumn()
+  createdAt: Date
+  @UpdateDateColumn()
+  updatedAt: Date
+  @ManyToOne((type) => User, (user) => user.posts)
+  author: User
+  @OneToMany((type) => Comment, (comment) => comment.post)
+  comments: Comment[]
 }

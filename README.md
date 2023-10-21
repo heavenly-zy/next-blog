@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# My Next Blog
 
-## Getting Started
+## 启动数据库
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```sh
+mkdir blog-data
+docker run -v "$PWD/blog-data":/var/lib/postgresql/data -p 5432:5432 -e POSTGRES_USER=blog -e POSTGRES_HOST_AUTH_METHOD=trust -d postgres:12.2
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 清空之前的开发环境
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```sh
+docker ps
+docker kill <容器id>
+docker rm <容器id>
+rm -rf blog-data
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+或
 
-## Learn More
+```sh
+docker container prune 
+docker volume rm blog-data
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 创建数据库
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```sh
+# 进入 docker 容器
+docker exec -it <容器id> bash
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+# 进入 pg 命令行
+psql -U blog
 
-## Deploy on Vercel
+# 创建开发环境数据库
+CREATE DATABASE blog_development ENCODING 'UTF8' LC_COLLATE 'en_US.utf8' LC_CTYPE 'en_US.utf8';
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 创建数据表
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```sh
+# 升级数据
+pnpm migration:run
+
+# 数据填充
+node dist/seed.js
+```
+
+## 开发
+
+```sh
+pnpm install
+pnpm dev
+```
+
+## 部署
+
+```sh
+```

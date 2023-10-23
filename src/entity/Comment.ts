@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, type Relation, UpdateDateColumn } from "typeorm"
 import { User } from "./User"
 import { Post } from "./Post"
 
@@ -9,9 +9,9 @@ export class Comment {
   @Column("text")
   content: string
   @ManyToOne((type) => User, (user) => user.comments)
-  user: User
+  user: Relation<User>
   @ManyToOne((type) => Post, (post) => post.comments)
-  post: Post
+  post: Relation<Post>
   @CreateDateColumn()
   createdAt: Date
   @UpdateDateColumn()

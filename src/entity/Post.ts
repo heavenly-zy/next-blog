@@ -5,6 +5,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  type Relation,
   UpdateDateColumn
 } from "typeorm"
 import { User } from "./User"
@@ -23,7 +24,7 @@ export class Post {
   @UpdateDateColumn()
   updatedAt: Date
   @ManyToOne((type) => User, (user) => user.posts)
-  author: User
+  author: Relation<User>
   @OneToMany((type) => Comment, (comment) => comment.post)
-  comments: Comment[]
+  comments: Relation<Comment>[]
 }

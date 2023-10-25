@@ -3,42 +3,24 @@ import { User } from "@/entity/User"
 import { NextResponse, type NextRequest } from "next/server"
 
 export async function POST(req: NextRequest) {
-  const newHeaders = new Headers(req.headers)
   const { username, password, passwordConfirmation } = await req.json()
-  const errors = {
-    username: [] as string[],
-    password: [] as string[],
-    passwordConfirmation: [] as string[]
-  }
-  if (username.trim() === "") {
-    errors.username.push("不能为空")
-  }
-  if (!/[a-zA-Z0-9]/.test(username.trim())) {
-    errors.username.push("格式不合法")
-  }
-  if (username.trim().length > 42) {
-    errors.username.push("太长")
-  }
-  if (username.trim().length <= 3) {
-    errors.username.push("太短")
-  }
-  if (password === "") {
-    errors.password.push("不能为空")
-  }
-  if (password !== passwordConfirmation) {
-    errors.passwordConfirmation.push("密码不匹配")
-  }
-  const hasErrors = Object.values(errors).find((v) => v.length > 0)
-  newHeaders.set("Content-Type", "application/json; charset=utf-8")
-  if (hasErrors) {
-    return new Response(JSON.stringify(errors), {
+  const user = new User()
+  Object.assign(user, {
+    username: username.trim(),
+    password,
+    passwordConfirmation
+  })
+  user.validate()
+  if (user.hasErrors) {
+    return new Response(JSON.stringify(user.errors), {
+      // http code 422: 用户以正确的格式发送了请求，但请求中包含了语义上错误或不完整的信息
       status: 422,
+      headers: new Headers({
+        "Content-Type": "application/json; charset=utf-8"
+      })
     })
   } else {
     const connection = await getDatabaseConnection()
-    const user = new User()
-    user.username = username.trim()
-    user.passwordDigest = password
     await connection.manager.save(user)
     return NextResponse.json(user)
   }

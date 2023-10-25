@@ -14,17 +14,17 @@ import { Comment } from "./Comment"
 @Entity("posts")
 export class Post {
   @PrimaryGeneratedColumn("increment")
-  id: number
+  id!: number
   @Column("varchar")
-  title: string
+  title!: string
   @Column("text")
-  content: string
+  content!: string
   @CreateDateColumn()
-  createdAt: Date
+  createdAt!: Date
   @UpdateDateColumn()
-  updatedAt: Date
+  updatedAt!: Date
   @ManyToOne((type) => User, (user) => user.posts)
-  author: Relation<User>
+  author!: Relation<User>
   @OneToMany((type) => Comment, (comment) => comment.post)
-  comments: Relation<Comment>[]
+  comments!: Relation<Comment>[]
 }

@@ -14,28 +14,28 @@ import { Comment } from "./Comment"
 @Entity("users")
 export class User {
   @PrimaryGeneratedColumn("increment")
-  id: number
+  id!: number
   @Column("varchar")
-  username: string
+  username!: string
   @Column("varchar")
-  passwordDigest: string
+  passwordDigest?: string
   @CreateDateColumn()
-  createdAt: Date
+  createdAt!: Date
   @UpdateDateColumn()
-  updatedAt: Date
+  updatedAt!: Date
   @OneToMany((type) => Post, (post) => post.author)
-  posts: Relation<Post>[]
+  posts!: Relation<Post>[]
   @OneToMany((type) => Comment, (comment) => comment.user)
-  comments: Relation<Comment>[]
-  password: string
-  passwordConfirmation: string
+  comments!: Relation<Comment>[]
+  password!: string
+  passwordConfirmation?: string
   errors = {
     username: [] as string[],
     password: [] as string[],
     passwordConfirmation: [] as string[]
   }
   validate() {
-    if (this.username.trim() === "") {
+    if (this.username?.trim() === "") {
       this.errors.username.push("不能为空")
     }
     if (!/[a-zA-Z0-9]/.test(this.username.trim())) {

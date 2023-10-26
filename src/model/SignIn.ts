@@ -1,5 +1,6 @@
 import { User } from "@/entity/User"
 import { getDatabaseConnection } from "@/lib/getDatabaseConnection"
+import { hashPassword } from "@/lib/hash-password"
 
 export class SignIn {
   user!: User
@@ -18,10 +19,10 @@ export class SignIn {
     const connection = await getDatabaseConnection()
     const user = await connection.manager.findOne(User, { where: { username: this.username } })
     if (user) {
-      if (user.passwordDigest === this.password + "_digest") {
+      if (user.passwordDigest === hashPassword(this.password)) {
         this.user = user
       } else {
-        this.errors.password.push("用户名与密码不匹配")
+        this.errors.password.push("密码与用户名不匹配")
       }
     } else {
       this.errors.username.push("用户名不存在")

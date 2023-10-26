@@ -11,6 +11,7 @@ import {
 import { Post } from "./Post"
 import { Comment } from "./Comment"
 import { getDatabaseConnection } from "@/lib/getDatabaseConnection"
+import { hashPassword } from "@/lib/hash-password"
 
 @Entity("users")
 export class User {
@@ -67,7 +68,7 @@ export class User {
   @BeforeInsert()
   generatePasswordDigest() {
     // 用 @BeforeInsert() 装饰器定义的方法，会在 save(user) 时自动执行（即：在保存信息到数据库之前执行）
-    this.passwordDigest = this.password + "_digest"
+    this.passwordDigest = hashPassword(this.password)
   }
   toJSON() {
     // 当对象被序列化（JSON.stringify()）时，toJSON 方法会自动被调用

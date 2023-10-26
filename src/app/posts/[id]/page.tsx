@@ -12,10 +12,12 @@ const postsShow: NextPage<Props> = async (props) => {
     where: { id: +id }
   })
   return (
-    <div>
-      <h1>{post.title}</h1>
-      <article dangerouslySetInnerHTML={{ __html: post.content}}></article>
-    </div>
+    post && (
+      <div>
+        <h1>{post.title}</h1>
+        <article dangerouslySetInnerHTML={{ __html: post.content }}></article>
+      </div>
+    )
   )
 }
 

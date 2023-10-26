@@ -10,6 +10,7 @@ import {
 } from "typeorm"
 import { Post } from "./Post"
 import { Comment } from "./Comment"
+import { getDatabaseConnection } from "@/lib/getDatabaseConnection"
 
 @Entity("users")
 export class User {
@@ -34,7 +35,10 @@ export class User {
     password: [] as string[],
     passwordConfirmation: [] as string[]
   }
-  validate() {
+  async validate() {
+    const connection = await getDatabaseConnection()
+    const user = await connection.manager.findOne(User, { where: { username: this.username } })
+    
     if (this.username?.trim() === "") {
       this.errors.username.push("不能为空")
     }
@@ -46,6 +50,9 @@ export class User {
     }
     if (this.username.trim().length <= 3) {
       this.errors.username.push("太短")
+    }
+    if (user) {
+      this.errors.username.push("用户已存在，不能重复注册")
     }
     if (this.password === "") {
       this.errors.password.push("不能为空")

@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     password,
     passwordConfirmation
   })
-  user.validate()
+  await user.validate()
   if (user.hasErrors) {
     return new Response(JSON.stringify(user.errors), {
       // http code 422: 用户以正确的格式发送了请求，但请求中包含了语义上错误或不完整的信息

@@ -1,8 +1,11 @@
+import { createResponse, getSession } from "@/lib/session"
 import { SignIn } from "@/model/SignIn"
-import { NextResponse, type NextRequest } from "next/server"
+import { type NextRequest } from "next/server"
 
 export async function POST(req: NextRequest) {
   const { username, password } = await req.json()
+  const response = new Response()
+  const session = await getSession(req, response)
   const signIn = new SignIn(username, password)
   await signIn.validate()
   if (signIn.hasErrors) {
@@ -13,6 +16,8 @@ export async function POST(req: NextRequest) {
       })
     })
   } else {
-    return NextResponse.json(signIn.user)
+    session.user = signIn.user
+    await session.save()
+    return createResponse(response, JSON.stringify(signIn.user))
   }
 }

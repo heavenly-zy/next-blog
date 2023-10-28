@@ -7,7 +7,7 @@ interface Data {
 
 export const getSession = (req: Request, res: Response) => {
   const session = getIronSession<Data>(req, res, {
-    password: "ThisIsNotASecurePasswordPleaseChangeIt",
+    password: process.env.SECRET!,
     cookieName: "blog",
     cookieOptions: {
       secure: false

@@ -20,10 +20,10 @@ const SignIn: NextPage = () => {
         axios.post<Partial<User>>("/api/v1/sessions", formData, {
           headers: { "Cache-Control": "no-store" }
         }),
-      callback: (res) => {
+      success: (res) => {
         setUser(res.data)
       },
-      message: "登录成功"
+      successMessage: "登录成功"
     }
   })
   return (

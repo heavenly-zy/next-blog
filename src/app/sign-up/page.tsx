@@ -15,10 +15,10 @@ const SignUp: NextPage = () => {
     buttons: <button type="submit">注册</button>,
     submit: {
       request: (formData) => axios.post("/api/v1/users", formData),
-      callback: () => {
+      success: () => {
         location.href = "/sign-in"
       },
-      message: "注册成功"
+      successMessage: "注册成功"
     }
   })
   return (

@@ -12,8 +12,8 @@ type useFormOptions<T, K> = {
   buttons: ReactNode
   submit: {
     request: (formData: T) => Promise<AxiosResponse<K, any>>
-    callback?: (res: AxiosResponse<K, any>) => void | PromiseLike<void>
-    message: string
+    success?: (res: AxiosResponse<K, any>) => void | PromiseLike<void>
+    successMessage?: string
   }
 }
 
@@ -34,15 +34,15 @@ export function useForm<T extends Record<string, any>, K>(options: useFormOption
         [key]: value
       }))
     },
-    [formData]
+    []
   )
   const _onSubmit = useCallback(
     (e: FormEvent) => {
       e.preventDefault()
       submit.request(formData).then(
         (res) => {
-          submit.callback?.(res)
-          alert(submit.message)
+          submit.success?.(res)
+          submit.successMessage && alert(submit.successMessage)
         },
         (error) => {
           if (error.response) {

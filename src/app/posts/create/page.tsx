@@ -14,7 +14,7 @@ const PostsCreate: NextPage = () => {
     buttons: <button type="submit">提交</button>,
     submit: {
       request: (formData) => axios.post("/api/v1/posts", formData),
-      message: "提交成功"
+      successMessage: "提交成功"
     }
   })
   return <div>{form}</div>

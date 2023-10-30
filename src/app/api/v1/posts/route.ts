@@ -20,3 +20,16 @@ export async function POST(req: NextRequest) {
     })
   }
 }
+
+export async function GET(req: NextRequest) {
+  const session = await getSession(req, new Response())
+  if (session?.user) {
+    const connection = await getDatabaseConnection()
+    const posts = await connection.manager.find(Post)
+    return NextResponse.json(posts)
+  } else {
+    return new Response("用户认证失败，请重新登录", {
+      status: 401
+    })
+  }
+}

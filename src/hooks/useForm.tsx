@@ -49,6 +49,9 @@ export function useForm<T extends Record<string, any>, K>(options: useFormOption
             const response: AxiosResponse = error.response
             if (response.status === 422) {
               setErrors((prevErrors) => ({ ...prevErrors, ...response.data }))
+            } else if (response.status === 401) {
+              alert(response?.data ?? "error")
+              location.href = `/sign-in?return-to=${encodeURIComponent(location.pathname)}`
             }
           }
         }

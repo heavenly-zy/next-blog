@@ -5,6 +5,7 @@ import { useState } from "react"
 import axios from "axios"
 import { User } from "@/entity/User"
 import { useForm } from "@/hooks/useForm"
+import { getQueryParams } from "@/lib/getQueryParams"
 
 const SignIn: NextPage = () => {
   const [currentUser, setUser] = useState<Partial<User>>()
@@ -22,6 +23,7 @@ const SignIn: NextPage = () => {
         }),
       success: (res) => {
         setUser(res.data)
+        location.href = getQueryParams(location.search)['return-to']
       },
       successMessage: "登录成功"
     }

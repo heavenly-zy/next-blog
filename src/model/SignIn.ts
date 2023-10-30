@@ -1,5 +1,5 @@
 import { User } from "@/entity/User"
-import { getDatabaseConnection } from "@/lib/getDatabaseConnection"
+import { getDatabaseConnection } from "@/lib/get-database-connection"
 import { hashPassword } from "@/lib/hash-password"
 
 export class SignIn {

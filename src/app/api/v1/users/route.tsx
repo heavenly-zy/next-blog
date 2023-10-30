@@ -1,4 +1,4 @@
-import { getDatabaseConnection } from "@/lib/getDatabaseConnection"
+import { getDatabaseConnection } from "@/lib/get-database-connection"
 import { User } from "@/entity/User"
 import { NextResponse, type NextRequest } from "next/server"
 

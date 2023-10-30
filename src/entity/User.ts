@@ -10,7 +10,7 @@ import {
 } from "typeorm"
 import { Post } from "./Post"
 import { Comment } from "./Comment"
-import { getDatabaseConnection } from "@/lib/getDatabaseConnection"
+import { getDatabaseConnection } from "@/lib/get-database-connection"
 import { hashPassword } from "@/lib/hash-password"
 
 @Entity("users")

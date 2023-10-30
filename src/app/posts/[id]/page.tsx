@@ -1,5 +1,5 @@
 import { Post } from "@/entity/Post"
-import { getDatabaseConnection } from "@/lib/getDatabaseConnection"
+import { getDatabaseConnection } from "@/lib/get-database-connection"
 import { NextPage } from "next"
 
 type Props = {

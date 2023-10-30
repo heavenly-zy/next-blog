@@ -5,7 +5,7 @@ import { useState } from "react"
 import axios from "axios"
 import { User } from "@/entity/User"
 import { useForm } from "@/hooks/useForm"
-import { getQueryParams } from "@/lib/getQueryParams"
+import { getQueryParams } from "@/lib/get-query-params"
 
 const SignIn: NextPage = () => {
   const [currentUser, setUser] = useState<Partial<User>>()

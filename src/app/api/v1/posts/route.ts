@@ -23,8 +23,9 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  const page = +(getQueryParams(req.nextUrl.search)?.page || 1)
-  const size = +(getQueryParams(req.nextUrl.search)?.size || 3)
+  const searchParams = Object.fromEntries(new URL(req.url).searchParams)
+  const page = +(searchParams?.page || 1)
+  const size = 4
   const session = await getSession(req, new Response())
   if (session?.user) {
     const connection = await getDatabaseConnection()
@@ -34,8 +35,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({
       list: posts,
       total: count,
-      page,
-      size
+      page
     })
   } else {
     return new Response("用户认证失败，请重新登录", {

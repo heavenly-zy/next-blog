@@ -33,7 +33,7 @@ export const usePager = (options: Options) => {
           <span key={n}>...</span>
         ) : (
           <Link href={urlMaker(n)} key={n}>
-            {n}
+            <span>{n}</span>
           </Link>
         )
       )}
@@ -46,7 +46,6 @@ export const usePager = (options: Options) => {
         .wrapper {
           margin: 0 -8px;
         }
-        .wrapper a,
         .wrapper span {
           margin: 0 8px;
         }

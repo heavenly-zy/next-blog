@@ -1,6 +1,5 @@
 import { Post } from "@/entity/Post"
 import { getDatabaseConnection } from "@/lib/get-database-connection"
-import { getQueryParams } from "@/lib/get-query-params"
 import { getSession } from "@/lib/session"
 import { NextRequest, NextResponse } from "next/server"
 
@@ -25,16 +24,16 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   const searchParams = Object.fromEntries(new URL(req.url).searchParams)
   const page = +(searchParams?.page || 1)
-  const size = 4
+  const pageSize = 4
   const session = await getSession(req, new Response())
   if (session?.user) {
     const connection = await getDatabaseConnection()
     const [posts, count] = await connection.manager.findAndCount(Post, {
-      skip: (page - 1) * size, take: size
+      skip: (page - 1) * pageSize, take: pageSize
     })
     return NextResponse.json({
       list: posts,
-      total: count,
+      pageCount: Math.ceil(count / pageSize),
       page
     })
   } else {

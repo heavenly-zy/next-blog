@@ -2,13 +2,13 @@ import Link from "next/link"
 
 type Options = {
   page: number
-  total: number
+  pageCount: number
   urlMaker?: (n: number) => string
 }
 const defaultUrlMaker = (n: number) => `?page=${n}`
 
 export const usePager = (options: Options) => {
-  const { page, total, urlMaker: _urlMaker } = options
+  const { page, pageCount, urlMaker: _urlMaker } = options
   const urlMaker = _urlMaker || defaultUrlMaker
   const numbers = []
   numbers.push(1)
@@ -18,7 +18,7 @@ export const usePager = (options: Options) => {
   numbers.push(1)
   const pageNumbers = [...new Set(numbers)]
     .sort()
-    .filter((n) => n >= 1 && n <= total)
+    .filter((n) => n >= 1 && n <= pageCount)
     .reduce(
       (result: number[], n) =>
         n - (result[result.length - 1] || 0) === 1 ? result.concat(n) : result.concat(-1, n),
@@ -37,9 +37,9 @@ export const usePager = (options: Options) => {
           </Link>
         )
       )}
-      {page < total && <Link href={urlMaker(page + 1)}>下一页</Link>}
+      {page < pageCount && <Link href={urlMaker(page + 1)}>下一页</Link>}
       <span>
-        第 {page} / {total} 页
+        第 {page} / {pageCount} 页
       </span>
 
       <style jsx>{`

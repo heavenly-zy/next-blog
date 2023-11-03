@@ -8,14 +8,14 @@ import { useEffect, useState } from "react"
 
 type Data = {
   list: Post[]
-  total: number
+  pageCount: number
   page: number
 }
 
 const PostsIndex = ({ searchParams }: { searchParams: { page: number } }) => {
   const [data, setData] = useState<Data>({
     list: [],
-    total: 0,
+    pageCount: 0,
     page: 0
   })
   useEffect(() => {
@@ -27,7 +27,7 @@ const PostsIndex = ({ searchParams }: { searchParams: { page: number } }) => {
         setData(res.data)
       })
   }, [searchParams?.page])
-  const { pager } = usePager({ page: data.page, total: data.total })
+  const { pager } = usePager({ page: data.page, pageCount: data.pageCount })
   return (
     <div>
       <h1>文章列表</h1>

@@ -28,7 +28,15 @@ export const usePager = (options: Options) => {
   const pager = (
     <div className="wrapper">
       {page !== 1 && <Link href={urlMaker(page - 1)}>上一页</Link>}
-      {pageNumbers.map((n) => (n === -1 ? <span>...</span> : <Link href={urlMaker(n)}>{n}</Link>))}
+      {pageNumbers.map((n) =>
+        n === -1 ? (
+          <span key={n}>...</span>
+        ) : (
+          <Link href={urlMaker(n)} key={n}>
+            {n}
+          </Link>
+        )
+      )}
       {page < total && <Link href={urlMaker(page + 1)}>下一页</Link>}
       <span>
         第 {page} / {total} 页

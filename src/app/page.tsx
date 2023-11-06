@@ -3,15 +3,13 @@ import Link from "next/link"
 
 const Home: NextPage = () => {
   return (
-    <>
-      <div>
-        <h1>ClariS 的个人博客</h1>
-        <p>Querying for a variable and seizing the time</p>
-        <p>
-          <Link href="/posts">文章列表</Link>
-        </p>
-      </div>
-    </>
+    <div className="flex flex-col justify-center items-center h-[100vh]">
+      <h1>ClariS 的个人博客</h1>
+      <p>Querying for a variable and seizing the time</p>
+      <p>
+        <Link href="/posts">文章列表</Link>
+      </p>
+    </div>
   )
 }
 

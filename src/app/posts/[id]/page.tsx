@@ -1,5 +1,6 @@
 import { Post } from "@/entity/Post"
 import { getDatabaseConnection } from "@/lib/get-database-connection"
+import { marked } from "marked"
 import { NextPage } from "next"
 
 type Props = {
@@ -14,8 +15,8 @@ const postsShow: NextPage<Props> = async (props) => {
   return (
     post && (
       <div>
-        <h1>{post.title}</h1>
-        <article dangerouslySetInnerHTML={{ __html: post.content }}></article>
+        <h1 className="w-[890px] mx-auto">{post.title}</h1>
+        <article className="markdown-body" dangerouslySetInnerHTML={{ __html: marked(post.content) }}></article>
       </div>
     )
   )

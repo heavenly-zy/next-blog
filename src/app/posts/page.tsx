@@ -36,7 +36,6 @@ const PostsIndex = ({ searchParams }: { searchParams: { page: number } }) => {
           <Link href={`/posts/${p.id}`}>{p.title}</Link>
         </div>
       ))}
-      <hr />
       <footer>{pager}</footer>
     </div>
   )

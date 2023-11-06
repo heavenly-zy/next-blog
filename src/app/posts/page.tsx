@@ -29,15 +29,30 @@ const PostsIndex = ({ searchParams }: { searchParams: { page: number } }) => {
   }, [searchParams?.page])
   const { pager } = usePager({ page: data.page, pageCount: data.pageCount })
   return (
-    <div>
-      <h1>文章列表</h1>
-      {data.list.map((p) => (
-        <div key={p.id}>
-          <Link href={`/posts/${p.id}`}>{p.title}</Link>
-        </div>
-      ))}
-      <footer>{pager}</footer>
-    </div>
+    <>
+      <div className="posts">
+        <h1>文章列表</h1>
+        {data.list.map((p) => (
+          <div key={p.id} className="post">
+            <Link className="text-[#000] hover:text-primary no-underline" href={`/posts/${p.id}`}>
+              {p.title}
+            </Link>
+          </div>
+        ))}
+        <footer>{pager}</footer>
+      </div>
+      <style jsx>{`
+        .posts {
+          max-width: 800px;
+          margin: 0 auto;
+          padding: 16px;
+        }
+        .post {
+          border-bottom: 1px solid #ddd;
+          padding: 8px 0;
+        }
+      `}</style>
+    </>
   )
 }
 

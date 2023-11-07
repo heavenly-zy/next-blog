@@ -20,7 +20,20 @@ const PostsCreate: NextPage = () => {
       successMessage: "提交成功"
     }
   })
-  return <div>{form}</div>
+  return (
+    <>
+      <div className="post-create">{form}</div>
+      <style jsx global>{`
+        .post-create {
+          padding: 16px;
+        }
+        .post-create .field-content textarea {
+          height: 20em;
+          resize: none;
+        }
+      `}</style>
+    </>
+  )
 }
 
 export default PostsCreate

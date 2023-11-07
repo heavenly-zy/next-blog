@@ -26,19 +26,14 @@ export async function GET(req: NextRequest) {
   const page = +(searchParams?.page || 1)
   const pageSize = 4
   const session = await getSession(req, new Response())
-  if (session?.user) {
-    const connection = await getDatabaseConnection()
-    const [posts, count] = await connection.manager.findAndCount(Post, {
-      skip: (page - 1) * pageSize, take: pageSize
-    })
-    return NextResponse.json({
-      list: posts,
-      pageCount: Math.ceil(count / pageSize),
-      page
-    })
-  } else {
-    return new Response("用户认证失败，请重新登录", {
-      status: 401
-    })
-  }
+  const connection = await getDatabaseConnection()
+  const [posts, count] = await connection.manager.findAndCount(Post, {
+    skip: (page - 1) * pageSize, take: pageSize
+  })
+  return NextResponse.json({
+    list: posts,
+    pageCount: Math.ceil(count / pageSize),
+    page,
+    currentUser: session.user
+  })
 }

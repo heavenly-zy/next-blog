@@ -1,6 +1,7 @@
 "use client"
 
 import { Post } from "@/entity/Post"
+import { User } from "@/entity/User"
 import { usePager } from "@/hooks/usePager"
 import axios from "axios"
 import Link from "next/link"
@@ -10,6 +11,7 @@ type Data = {
   list: Post[]
   pageCount: number
   page: number
+  currentUser?: User
 }
 
 const PostsIndex = ({ searchParams }: { searchParams: { page: number } }) => {
@@ -31,7 +33,10 @@ const PostsIndex = ({ searchParams }: { searchParams: { page: number } }) => {
   return (
     <>
       <div className="posts">
-        <h1>文章列表</h1>
+        <header className="flex items-center">
+          <h1>文章列表</h1>
+          {data.currentUser && <Link className="ml-auto" href="/posts/create">新增文章</Link>}
+        </header>
         {data.list.map((p) => (
           <div key={p.id} className="post">
             <Link className="text-[#000] hover:text-primary no-underline" href={`/posts/${p.id}`}>

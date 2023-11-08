@@ -4,15 +4,16 @@ import { getServerSession } from "@/lib/session"
 import { marked } from "marked"
 import { NextPage } from "next"
 import Link from "next/link"
+import { RemovePostButton } from "./RemovePostButton"
 
 type Props = {
   params: { id: string }
 }
-const postsShow: NextPage<Props> = async (props) => {
-  const id = props.params.id
+const PostContent: NextPage<Props> = async (props) => {
+  const postId = props.params.id
   const connection = await getDatabaseConnection()
   const post = await connection.manager.findOne(Post, {
-    where: { id: +id }
+    where: { id: +postId }
   })
   const { user: currentUser } = await getServerSession()
   return (
@@ -20,12 +21,22 @@ const postsShow: NextPage<Props> = async (props) => {
       <div>
         <header className="w-[890px] mx-auto flex items-center">
           <h1>{post.title}</h1>
-          {currentUser && <Link className="ml-auto" href={`/posts/${post.id}/edit`}>编辑</Link>}
+          {currentUser && (
+            <>
+              <Link className="ml-auto" href={`/posts/${post.id}/edit`}>
+                编辑
+              </Link>
+              <RemovePostButton postId={postId} />
+            </>
+          )}
         </header>
-        <article className="markdown-body" dangerouslySetInnerHTML={{ __html: marked(post.content) }}></article>
+        <article
+          className="markdown-body"
+          dangerouslySetInnerHTML={{ __html: marked(post.content) }}
+        ></article>
       </div>
     )
   )
 }
 
-export default postsShow
+export default PostContent

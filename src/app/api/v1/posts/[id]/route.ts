@@ -22,3 +22,20 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     })
   }
 }
+
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+  const session = await getSession(req, new Response())
+  if (session?.user) {
+    const connection = await getDatabaseConnection()
+    const result = await connection.manager.delete(Post, +params.id)
+    if (result.affected && result.affected > 0) {
+      return NextResponse.json("删除成功")
+    } else {
+      return NextResponse.json("删除失败，没有找到匹配的数据", { status: 400 })
+    }
+  } else {
+    return new Response("用户认证失败，请重新登录", {
+      status: 401
+    })
+  }
+}

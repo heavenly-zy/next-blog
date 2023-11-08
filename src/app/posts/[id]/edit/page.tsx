@@ -1,39 +1,13 @@
-"use client"
+import { getDatabaseConnection } from "@/lib/get-database-connection"
+import { EditForm } from "./EditForm"
+import { Post } from "@/entity/Post"
 
-import { useForm } from "@/hooks/useForm"
-import axios from "axios"
-
-const PostEditPage = ({ params }: { params: { id: string } }) => {
-  console.log('params: ', params);
-  const { form } = useForm({
-    initFormData: { title: "", content: "" },
-    fields: [
-      { label: "标题", type: "text", key: "title" },
-      { label: "内容", type: "textarea", key: "content" }
-    ],
-    buttons: <button type="submit">提交</button>,
-    submit: {
-      request: (formData) => axios.post("/api/v1/posts", formData),
-      success: () => {
-        location.href = '/posts'
-      },
-      successMessage: "提交成功"
-    }
+const PostEditPage = async ({ params }: { params: { id: string } }) => {
+  const connection = await getDatabaseConnection()
+  const post = await connection.manager.findOne(Post, {
+    where: { id: +params.id }
   })
-  return (
-    <>
-      <div className="post-edit">{form}</div>
-      <style jsx global>{`
-        .post-edit {
-          padding: 16px;
-        }
-        .post-edit .field-content textarea {
-          height: 20em;
-          resize: none;
-        }
-      `}</style>
-    </>
-  )
+  return <>{post && <EditForm post={post} />}</>
 }
 
 export default PostEditPage

@@ -13,7 +13,9 @@
     "migration:create": "typeorm migration:create",
     "migration:run": "typeorm migration:run -d dist/data-source.js",
     "migration:revert": "typeorm migration:revert -d dist/data-source.js",
-    "entity:create": "typeorm entity:create"
+    "entity:create": "typeorm entity:create",
+    "seed": "node dist/seed.js",
+    "deploy:prod": "ssh blog@dev1 'bash -s' < bin/deploy.sh"
   },
   "dependencies": {
     "axios": "^1.5.1",

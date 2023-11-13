@@ -1,0 +1,48 @@
+diff --git a/src/entity/User.ts b/src/entity/User.ts
+index 64b234f..83b86b2 100644
+--- a/src/entity/User.ts
++++ b/src/entity/User.ts
+@@ -10,8 +10,8 @@ import {
+ } from "typeorm"
+ import { Post } from "./Post"
+ import { Comment } from "./Comment"
+-import { getDatabaseConnection } from "@/lib/get-database-connection"
+-import { hashPassword } from "@/lib/hash-password"
++// import { getDatabaseConnection } from "@/lib/get-database-connection"
++// import { hashPassword } from "@/lib/hash-password"
+ 
+ @Entity("users")
+ export class User {
+@@ -37,8 +37,8 @@ export class User {
+     passwordConfirmation: [] as string[]
+   }
+   async validate() {
+-    const connection = await getDatabaseConnection()
+-    const user = await connection.manager.findOne(User, { where: { username: this.username } })
++    // const connection = await getDatabaseConnection()
++    // const user = await connection.manager.findOne(User, { where: { username: this.username } })
+     
+     if (this.username?.trim() === "") {
+       this.errors.username.push("不能为空")
+@@ -52,9 +52,9 @@ export class User {
+     if (this.username.trim().length <= 3) {
+       this.errors.username.push("太短")
+     }
+-    if (user) {
+-      this.errors.username.push("用户已存在，不能重复注册")
+-    }
++    // if (user) {
++    //   this.errors.username.push("用户已存在，不能重复注册")
++    // }
+     if (this.password === "") {
+       this.errors.password.push("不能为空")
+     }
+@@ -68,7 +68,7 @@ export class User {
+   @BeforeInsert()
+   generatePasswordDigest() {
+     // 用 @BeforeInsert() 装饰器定义的方法，会在 save(user) 时自动执行（即：在保存信息到数据库之前执行）
+-    this.passwordDigest = hashPassword(this.password)
++    // this.passwordDigest = hashPassword(this.password)
+   }
+   toJSON() {
+     // 当对象被序列化（JSON.stringify()）时，toJSON 方法会自动被调用

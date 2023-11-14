@@ -51,12 +51,14 @@ pnpm migration:run &&
 
 echo '构建镜像...'
 git reset --hard HEAD &&
-pnpm build &&
 docker build -t $APP_NAME/node-web-app . &&
 
 echo '运行镜像...'
 docker kill $APP_NAME-app || true
 docker rm $APP_NAME-app || true
 docker run --name $APP_NAME-app --network=host -p 3000:3000 -d $APP_NAME/node-web-app &&
+
+echo '启动nginx...'
+docker run --name nginx1 --network=host -v /home/blog/app/nginx.conf:/etc/nginx/conf.d/default.conf -v /home/blog/app/.next/static/:/usr/share/nginx/html/_next/static/ -d nginx:1.25.3
 
 echo '完成！';

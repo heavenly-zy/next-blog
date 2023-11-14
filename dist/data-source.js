@@ -6,13 +6,14 @@ Object.defineProperty(exports, "__esModule", {
 exports.AppDataSource = void 0;
 require("reflect-metadata");
 var _typeorm = require("typeorm");
+var database = process.env.NODE_ENV === "production" ? "blog_production" : "blog_development";
 var AppDataSource = new _typeorm.DataSource({
   type: "postgres",
   host: "localhost",
   port: 5432,
   username: "blog",
   password: "",
-  database: "blog_development",
+  database: database,
   synchronize: false,
   logging: false,
   entities: ["dist/entity/**/*.js"],

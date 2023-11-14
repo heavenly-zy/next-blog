@@ -10,4 +10,4 @@ CMD ["pnpm", "start"]
 
 FROM nginx:1.25.3
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /.next/ /usr/share/nginx/html/
+COPY --from=build /usr/src/app/.next/ /usr/share/nginx/html/

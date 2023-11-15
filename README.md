@@ -1,6 +1,6 @@
 # My Next Blog
 
-我的个人博客，它使用 Next.js、TypeScript、TypeORM 和 TailwindCSS 构建。
+我的个人博客，它使用 Next.js、React、TypeScript、TypeORM 和 TailwindCSS 构建。
 
 ## 启动数据库
 

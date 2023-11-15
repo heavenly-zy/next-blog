@@ -1,6 +1,12 @@
-# My Next Blog
+<div align="center">
+
+<h1 align="center">My Next Blog</h1>
 
 我的个人博客，它使用 Next.js、React、TypeScript、TypeORM 和 TailwindCSS 构建。
+
+访问地址：http://182.92.201.130/
+
+</div>
 
 ## 启动数据库
 

@@ -28,6 +28,7 @@ export async function GET(req: NextRequest) {
   const session = await getSession(req, new Response())
   const connection = await getDatabaseConnection()
   const [posts, count] = await connection.manager.findAndCount(Post, {
+    where: { author: { id: session.user?.id } },
     skip: (page - 1) * pageSize, take: pageSize
   })
   return NextResponse.json({
